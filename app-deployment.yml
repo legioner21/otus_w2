@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otus-work-2-app-deployment
+  labels:
+    app: otus-work-2-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: otus-work-2-app
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: otus-work-2-app
+    spec:
+      containers:
+      - name: otis-work2
+        image: legioner4/otis-work:1.0
+        ports:
+          - containerPort: 8000
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /health/
+            port: 8000
+        livenessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /health/
+            port: 8000
